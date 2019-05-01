@@ -10,8 +10,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/bower_components/**").addResourceLocations("/bower_components/"); 
-        registry.addResourceHandler("/dist/**").addResourceLocations("/dist/");
-        registry.addResourceHandler("/plugins/**").addResourceLocations("/plugins/"); 
+        registry.addResourceHandler("/bower_components/**").addResourceLocations("classpath:/bower_components/"); 
+        registry.addResourceHandler("/dist/**").addResourceLocations("classpath:/dist/");
+        registry.addResourceHandler("/public/**").addResourceLocations("classpath:/public/");
+        registry.addResourceHandler("/plugins/**").addResourceLocations("classpath:/plugins/"); 
     }
 }
