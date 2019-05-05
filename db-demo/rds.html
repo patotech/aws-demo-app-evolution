@@ -727,7 +727,6 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../dist/js/demo.js"></script>
 <script>
-var tmpId = 0;
 $(function () {
     //Initialize Select2 Elements
     $('.select2').select2()
@@ -796,22 +795,17 @@ $(function () {
     //Request Form Submit
     $('#request-submit').click( function( event ) {
         var currentId = $('#request-id').val();
-        var formId = tmpId;
+        var formId = -1;
         var isNew = true;
-        if( currentId ) {
-            formId = currentId;
-            isNew = false;
-        } 
         var formData = {
-            id: formId,
-            user: 'John Doe',
             date: $('#request-date').val(),
             status: $('#request-status').val(),
             reason: $('#request-reason').val()
         };
-        if( isNew ) {
-            tmpId = tmpId + 1;
-        }
+        if( currentId ) {
+            isNew = false;
+            formData.id = currentId;
+        } 
         $('#request-submit').prop('disabled', true);
         addOrOverwriteJSONRequest( isNew, formData );
         $('#request-submit').prop('disabled', false);
@@ -830,12 +824,15 @@ function addOrOverwriteJSONRequest( isNew, formData ) {
         status: formData.status,
         reason: formData.reason
     };
+    var httpMethod = "post";
     if( !isNew ) {
         jsonPostData.id = formData.id;
+        httpMethod = "put";
+        restAPIBaseUrl = restAPIBaseUrl + "/" + jsonPostData.id;
     }
     $.ajax( {
       url: restAPIBaseUrl,
-      type: "post",
+      type: httpMethod,
       contentType: 'application/json',
       data: JSON.stringify( jsonPostData ),
       success: function( jsonResponse ) {
@@ -876,7 +873,7 @@ function addOrOverwriteRequest( isNew, jsonResponse ) {
         
     newRowContent = newRowContent +
         "<td>" + jsonResponse.reason + "</td>" +
-        "<td><button type='button' class='btn btn-block btn-danger btn-xs' onclick='deleteRequest(" + jsonResponse.id + ")'>Delete</button></td>" +
+        "<td><button type='button' class='btn btn-block btn-danger btn-xs' onclick='deleteJSONRequest(" + jsonResponse.id + ")'>Delete</button></td>" +
       "</tr>";
     $('#request-table').append( newRowContent );
 }
@@ -887,6 +884,19 @@ function updateRequest( requestId ) {
     $('#request-date').val( requestData.date );
     $('#request-status').val( requestData.status ).trigger( 'change' );
     $('#request-reason').val( requestData.reason );    
+}
+
+function deleteJSONRequest( requestId ) {
+    $.ajax( {
+      url: restAPIBaseUrl + "/" + requestId,
+      type: "delete",
+      success: function( jsonResponse ) {
+        deleteRequest( requestId );
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          console.log(textStatus, errorThrown);
+      }
+    } );
 }
 
 function deleteRequest( requestId ) {
