@@ -826,11 +826,19 @@ const restAPIBaseUrl = "/webappevolution-api/rds/requirement";
 
 function addOrOverwriteJSONRequest( isNew, formData ) {
     var jsonFormData = JSON.stringify( formData );
+    var jsonPostData = {
+        date: formData.date,
+        status: formData.status,
+        reason: formData.reason
+    };
+    if( !isNew ) {
+        jsonPostData.id = formData.id;
+    }
     $.ajax( {
       url: restAPIBaseUrl,
       type: "post",
       contentType: 'application/json',
-      data: jsonFormData,
+      data: JSON.stringify( jsonPostData ),
       success: function( response ) {
         addOrOverwriteRequest( isNew, formData );
       },
