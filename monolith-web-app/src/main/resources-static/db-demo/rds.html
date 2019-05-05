@@ -829,6 +829,7 @@ function addOrOverwriteJSONRequest( isNew, formData ) {
     $.ajax( {
       url: restAPIBaseUrl,
       type: "post",
+      contentType: 'application/json',
       data: jsonFormData,
       success: function( response ) {
         addOrOverwriteRequest( isNew, formData );
