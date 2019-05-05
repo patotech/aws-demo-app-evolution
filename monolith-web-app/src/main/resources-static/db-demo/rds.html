@@ -825,7 +825,6 @@ $(function () {
 const restAPIBaseUrl = "/webappevolution-api/rds/requirement";
 
 function addOrOverwriteJSONRequest( isNew, formData ) {
-    var jsonFormData = JSON.stringify( formData );
     var jsonPostData = {
         date: formData.date,
         status: formData.status,
@@ -839,8 +838,8 @@ function addOrOverwriteJSONRequest( isNew, formData ) {
       type: "post",
       contentType: 'application/json',
       data: JSON.stringify( jsonPostData ),
-      success: function( response ) {
-        addOrOverwriteRequest( isNew, formData );
+      success: function( jsonResponse ) {
+        addOrOverwriteRequest( isNew, jsonResponse );
       },
       error: function(jqXHR, textStatus, errorThrown) {
           console.log(textStatus, errorThrown);
@@ -850,24 +849,24 @@ function addOrOverwriteJSONRequest( isNew, formData ) {
 
 // This function adds a new request to the table and
 // is a callback to the AJAX request
-function addOrOverwriteRequest( isNew, formData ) {
+function addOrOverwriteRequest( isNew, jsonResponse ) {
     if( !isNew ) {
-        $('#request-info-row-' + formData.id ).remove();
+        $('#request-info-row-' + jsonResponse.id ).remove();
     }
-    var jsonFormData = JSON.stringify( formData );
+    var jsonFormData = JSON.stringify( jsonResponse );
     var newRowContent = 
-      "<tr onclick=\"updateRequest('" + formData.id + "');\" id=\"request-info-row-" + formData.id + "\">" +
-        "<td><input type=\"hidden\" id=\"request-data-" + formData.id + "\" value='" + jsonFormData + "'/>" + formData.id + "</td>" +
-        "<td>" + formData.user + "</td>" +
-        "<td>" + formData.date + "</td>";
+      "<tr onclick=\"updateRequest('" + jsonResponse.id + "');\" id=\"request-info-row-" + jsonResponse.id + "\">" +
+        "<td><input type=\"hidden\" id=\"request-data-" + jsonResponse.id + "\" value='" + jsonFormData + "'/>" + jsonResponse.id + "</td>" +
+        "<td>" + jsonResponse.user + "</td>" +
+        "<td>" + jsonResponse.date + "</td>";
 
-    if( formData.status == 'Approved' ) {
+    if( jsonResponse.status == 'Approved' ) {
         newRowContent = newRowContent + 
           "<td><span class='label label-success'>Approved</span></td>";
-    } else if( formData.status == 'Pending' ) {
+    } else if( jsonResponse.status == 'Pending' ) {
         newRowContent = newRowContent + 
           "<td><span class='label label-warning'>Pending</span></td>";
-    } else if( formData.status == 'Denied' ) {
+    } else if( jsonResponse.status == 'Denied' ) {
         newRowContent = newRowContent + 
           "<td><span class='label label-danger'>Denied</span></td>";
     } else {
@@ -876,7 +875,7 @@ function addOrOverwriteRequest( isNew, formData ) {
     } 
         
     newRowContent = newRowContent +
-        "<td>" + formData.reason + "</td>" +
+        "<td>" + jsonResponse.reason + "</td>" +
         "<td><button type='button' class='btn btn-block btn-danger btn-xs' onclick='deleteRequest(" + formData.id + ")'>Delete</button></td>" +
       "</tr>";
     $('#request-table').append( newRowContent );
