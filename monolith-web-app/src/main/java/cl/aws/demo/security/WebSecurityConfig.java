@@ -27,13 +27,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/", "/bower_components/**", "/dist/**", "/plugins/**", "/public/**", "/h2-console/**").permitAll()
+                .antMatchers("/", "/bower_components/**", "/dist/**", "/plugins/**", "/public/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
                 .loginPage("/public/login.html")
                 .loginProcessingUrl("/login-process")
-                .defaultSuccessUrl("/public/exito.html")
+                .defaultSuccessUrl("/admin/dashboard.html")
                 .failureUrl("/public/login.html?attemt=fail")
                 .permitAll()
                 .and()

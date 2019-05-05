@@ -12,6 +12,8 @@ public class MvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/bower_components/**").addResourceLocations("classpath:/bower_components/"); 
         registry.addResourceHandler("/dist/**").addResourceLocations("classpath:/dist/");
+        registry.addResourceHandler("/admin/**").addResourceLocations("classpath:/admin/");
+        registry.addResourceHandler("/db-demo/**").addResourceLocations("classpath:/db-demo/");
         registry.addResourceHandler("/public/**").addResourceLocations("classpath:/public/");
         registry.addResourceHandler("/plugins/**").addResourceLocations("classpath:/plugins/"); 
     }
