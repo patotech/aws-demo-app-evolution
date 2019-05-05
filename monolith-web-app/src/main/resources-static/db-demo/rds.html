@@ -797,10 +797,10 @@ $(function () {
     $('#request-submit').click( function( event ) {
         var currentId = $('#request-id').val();
         var formId = tmpId;
-        var incrementId = true;
+        var isNew = true;
         if( currentId ) {
             formId = currentId;
-            incrementId = false;
+            isNew = false;
         } 
         var formData = {
             id: formId,
@@ -809,11 +809,11 @@ $(function () {
             status: $('#request-status').val(),
             reason: $('#request-reason').val()
         };
-        if( incrementId ) {
+        if( isNew ) {
             tmpId = tmpId + 1;
         }
         $('#request-submit').prop('disabled', true);
-        addOrOverwriteRequest( incrementId, formData );
+        addOrOverwriteJSONRequest( isNew, formData );
         $('#request-submit').prop('disabled', false);
 
         $('#request-date').val('');
@@ -822,6 +822,16 @@ $(function () {
     })
 })
 
+const restAPIBaseUrl = "/webappevolution-api/rds/requirement";
+
+function addOrOverwriteJSONRequest( isNew, formData ) {
+    $.post( restAPIBaseUrl, formData, function( data ) {
+        console.log( data.name ); // John
+    }, "json");
+}
+
+// This function adds a new request to the table and
+// is a callback to the AJAX request
 function addOrOverwriteRequest( isNew, formData ) {
     if( !isNew ) {
         $('#request-info-row-' + formData.id ).remove();
