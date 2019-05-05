@@ -818,6 +818,23 @@ $(function () {
 
 const restAPIBaseUrl = "/webappevolution-api/rds/requirement";
 
+// Load initial data
+$(document).ready( function() {
+    $.ajax( {
+      url: restAPIBaseUrl,
+      type: "get",
+      contentType: 'application/json',
+      success: function( jsonResponse ) {
+          $.each( jsonResponse, function( i, request ) {
+            addOrOverwriteRequest( false, request );
+          });
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          console.log(textStatus, errorThrown);
+      }
+    } );
+});
+
 function addOrOverwriteJSONRequest( isNew, formData ) {
     var jsonPostData = {
         date: formData.date,
