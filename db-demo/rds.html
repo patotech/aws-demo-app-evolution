@@ -825,9 +825,18 @@ $(function () {
 const restAPIBaseUrl = "/webappevolution-api/rds/requirement";
 
 function addOrOverwriteJSONRequest( isNew, formData ) {
-    $.post( restAPIBaseUrl, formData, function( data ) {
-        console.log( data.name ); // John
-    }, "json");
+    var jsonFormData = JSON.stringify( formData );
+    $.ajax( {
+      url: restAPIBaseUrl,
+      type: "post",
+      data: jsonFormData,
+      success: function( response ) {
+        addOrOverwriteRequest( isNew, formData );
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          console.log(textStatus, errorThrown);
+      }
+    } );
 }
 
 // This function adds a new request to the table and
