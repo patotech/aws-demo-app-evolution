@@ -876,7 +876,7 @@ function addOrOverwriteRequest( isNew, jsonResponse ) {
         
     newRowContent = newRowContent +
         "<td>" + jsonResponse.reason + "</td>" +
-        "<td><button type='button' class='btn btn-block btn-danger btn-xs' onclick='deleteRequest(" + formData.id + ")'>Delete</button></td>" +
+        "<td><button type='button' class='btn btn-block btn-danger btn-xs' onclick='deleteRequest(" + jsonResponse.id + ")'>Delete</button></td>" +
       "</tr>";
     $('#request-table').append( newRowContent );
 }
