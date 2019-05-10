@@ -24,7 +24,7 @@ phases:
       - cd monolith-web-app && mvn package
       - echo Copiando al bucket $S3_ARTIFACT_BUCKET
       - ls target/*
-      - aws s3 sync target/monolith-web-app.war s3://$S3_ARTIFACT_BUCKET/ 
+      - aws s3 cp target/monolith-web-app.war s3://$S3_ARTIFACT_BUCKET/ 
     finally:
       - echo This always runs even if the install command fails
   post_build:
