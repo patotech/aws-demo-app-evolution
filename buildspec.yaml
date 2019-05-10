@@ -28,9 +28,10 @@ phases:
     commands:
       - echo Entered the post_build phase...
       - echo Build completed on `date`
+      - aws s3 sync monolith-web-app/target/monolith-web-app.war s3://my-bucket-name/ 
 artifacts:
   files:
-    - monolith-web-app/target/monolith-web-app.jar
+    - monolith-web-app/target/monolith-web-app.war
   discard-paths: yes
 cache:
   paths:
