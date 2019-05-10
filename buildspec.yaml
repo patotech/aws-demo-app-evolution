@@ -28,7 +28,7 @@ phases:
     commands:
       - echo Entered the post_build phase...
       - echo Build completed on `date`
-      - aws s3 sync monolith-web-app/target/monolith-web-app.war s3://my-bucket-name/ 
+      - aws s3 sync monolith-web-app/target/monolith-web-app.war s3://$S3_ARTIFACT_BUCKET/ 
 artifacts:
   files:
     - monolith-web-app/target/monolith-web-app.war
