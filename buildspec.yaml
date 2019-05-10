@@ -21,7 +21,7 @@ phases:
     commands:
       - echo Entered the build phase...
       - echo Build started on `date`
-      - mvn package
+      - cd monolith-web-app && mvn package
     finally:
       - echo This always runs even if the install command fails
   post_build:
@@ -30,7 +30,7 @@ phases:
       - echo Build completed on `date`
 artifacts:
   files:
-    - target/monolith-web-app.jar
+    - monolith-web-app/target/monolith-web-app.jar
   discard-paths: yes
 cache:
   paths:
