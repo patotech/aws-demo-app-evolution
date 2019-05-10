@@ -24,13 +24,13 @@ phases:
       - echo Entered the build phase...
       - echo Build started on `date`
       - cd monolith-web-app && mvn package
+      - aws s3 sync monolith-web-app/target/monolith-web-app.war s3://$S3_ARTIFACT_BUCKET/ 
     finally:
       - echo This always runs even if the install command fails
   post_build:
     commands:
       - echo Entered the post_build phase...
       - echo Build completed on `date`
-      - aws s3 sync monolith-web-app/target/monolith-web-app.war s3://$S3_ARTIFACT_BUCKET/ 
 artifacts:
   files:
     - monolith-web-app/target/monolith-web-app.war
