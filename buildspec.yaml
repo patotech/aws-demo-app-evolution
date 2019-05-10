@@ -3,7 +3,6 @@ version: 0.2
 env:
   variables:
     JAVA_HOME: "/usr/lib/jvm/java-8-openjdk-amd64"
-    S3_ARTIFACT_BUCKET: "default"
 
 phases:
   install:
@@ -23,6 +22,8 @@ phases:
       - echo Entered the build phase...
       - echo Build started on `date`
       - cd monolith-web-app && mvn package
+      - echo Copiando al bucket $S3_ARTIFACT_BUCKET
+      - ls monolith-web-app/target/*
       - aws s3 sync monolith-web-app/target/monolith-web-app.war s3://$S3_ARTIFACT_BUCKET/ 
     finally:
       - echo This always runs even if the install command fails
