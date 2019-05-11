@@ -1,8 +1,8 @@
 version: 0.0
 os: linux
 files:
-  - source: monolith-web-app.war
-    destination: /opt/tomcat/latest/webapp/ROOT.war
+  - source: ./monolith-web-app.war
+    destination: /opt/tomcat/latest/webapps
 hooks:
   ApplicationStop:
     - location: scripts/stop-tomcat.sh
