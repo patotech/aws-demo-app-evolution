@@ -5,19 +5,19 @@ files:
     destination: /opt/tomcat/latest/webapps
 hooks:
   ApplicationStop:
-    - location: scripts/stop-tomcat.sh
+    - location: stop-tomcat.sh
       timeout: 300
       runas: root
   BeforeInstall:
-    - location: scripts/delete-root-site.sh
+    - location: delete-root-site.sh
       timeout: 300
       runas: root
   AfterInstall:
-    - location: scripts/change-owner.sh
-    - location: scripts/check-db-created.sh
+    - location: change-owner.sh
+    - location: check-db-created.sh
       timeout: 300
       runas: root
   ApplicationStart:
-    - location: scripts/start-tomcat.sh
+    - location: start-tomcat.sh
       timeout: 300
       runas: root
