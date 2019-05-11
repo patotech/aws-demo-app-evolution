@@ -23,8 +23,6 @@ phases:
       - echo Build started on `date`
       - cd monolith-web-app && mvn package
       - cd .. && mv monolith-web-app/target/monolith-web-app.war monolith-web-app.war
-      - zip -ur monolith-web-app.zip monolith-web-app.war appspec.yml scripts
-      - aws s3 cp monolith-web-app.zip s3://$S3_ARTIFACT_BUCKET/
     finally:
       - echo This always runs even if the install command fails
   post_build:
@@ -33,7 +31,9 @@ phases:
       - echo Build completed on `date`
 artifacts:
   files:
-    - monolith-web-app.zip
+    - monolith-web-app.war
+    - appspec.yml 
+    - scripts
   discard-paths: yes
 cache:
   paths:
