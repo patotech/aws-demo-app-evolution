@@ -23,8 +23,8 @@ phases:
       - echo Build started on `date`
       - cd monolith-web-app && mvn package
       - echo Copiando al bucket $S3_ARTIFACT_BUCKET
-      - ls target/*
-      - aws s3 cp target/monolith-web-app.war s3://$S3_ARTIFACT_BUCKET/ 
+      - tar -czvf monolith-web-app.tar.gz target/monolith-web-app.war appspec.yaml ../scripts/*
+      - aws s3 cp monolith-web-app.tar.gz s3://$S3_ARTIFACT_BUCKET/
     finally:
       - echo This always runs even if the install command fails
   post_build:
@@ -33,7 +33,7 @@ phases:
       - echo Build completed on `date`
 artifacts:
   files:
-    - monolith-web-app/target/monolith-web-app.war
+    - monolith-web-app/monolith-web-app.tar.gz
   discard-paths: yes
 cache:
   paths:

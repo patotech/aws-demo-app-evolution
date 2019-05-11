@@ -1,0 +1,22 @@
+version: 0.0
+os: linux
+files:
+  - source: monolith-web-app.war
+    destination: /opt/tomcat/latest/webapp/ROOT.war
+hooks:
+  ApplicationStop:
+    - location: scripts/stop-tomcat.sh
+      timeout: 300
+      runas: root
+  BeforeInstall:
+    - location: scripts/delete-root-site.sh
+      timeout: 300
+      runas: root
+  AfterInstall:
+    - location: scripts/change-owner.sh
+      timeout: 300
+      runas: root
+  ApplicationStart:
+    - location: scripts/start-tomcat.sh
+      timeout: 300
+      runas: root
